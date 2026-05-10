@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Temas</title>
+        <link rel="stylesheet" href="{% static 'css/temasestilo.css' %}">
+    </head>
+
+    <body>
+
+    <div class="panel_izquierdo">
+
+        <div class="usuario">
+            <div class="avatar"></div>
+            <h2>{{ request.user.username }}</h2>
+        </div>
+
+        <div class="contenedor_temas">
+        {% for unidad, temas in unidades.items %}
+
+                <!-- TITULO DE LA UNIDAD (SOLO UNA VEZ) -->
+                <div class="unidad_titulo">
+                    <h4>{{ unidad }}</h4>
+                </div>
+         
+            {% for tema in temas %}
+                {% if tema.id == temaPrincipal.id %}
+                <div class="tema selected" onclick="window.location.href='/ejercicios/{{ tema.id }}/'">
+                    <div class="arriba_tema">
+                        <h3>{{ tema.name_tema }}</h3>
+                    </div>
+                    <div class="abajo_tema">
+                        <p>{{ tema.ejercicios_completados }}/{{ tema.total_ejercicios }} completado</p>
+                    </div>
+                </div>
+                {%else%}
+                <div class="tema" onclick="window.location.href='/ejercicios/{{ tema.id }}/'">
+                    <div class="arriba_tema">
+                        <h3>{{ tema.name_tema }}</h3>
+                    </div>
+                    <div class="abajo_tema">
+                        <p>{{ tema.ejercicios_completados }}/{{ tema.total_ejercicios }} completado</p>
+                    </div>
+                </div>
+                {%endif%}
+            {% endfor %}
+        {% endfor %}
+
+        </div>
+
+    </div>
+
+    <div class="panel_derecho">
+        {% block contenido %}
+        <!-- Aquí se carga cada página -->
+        {% endblock %}
+    </div>
+
+    </body>
+
+    <script src="{% static 'js/temas.js' %}"></script>
+
+</html>
