@@ -1,0 +1,124 @@
+{% extends 'estudiantes/temas.html' %}
+{% load static %}
+
+{% block contenido %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio</title>
+    <link rel="stylesheet" href="{% static 'css/ejercicioresolverestilo.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="enlaces">
+        <a href="{% url 'temas' %}">Temas /</a>
+        <a href="{% url 'ejercicios' temaPrincipal.id %}">{{temaPrincipal.name_tema}} /</a>
+        <a>{{ejercicioEnviado.titulo_ejercicio}}/</a>
+        <a>Resolver</a>
+    </div>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="centerHeader">   
+            <h2>Tema: {{temaPrincipal.name_tema}}</h2>
+            <p>{{temaPrincipal.descripcion_tema}}</p>
+        </div>  
+    </div>
+
+    <!-- HEADER / INFO -->
+    <div class="info-box">
+        <h2 class="title">{{ ejercicioEnviado.titulo_ejercicio }}</h2>
+
+        <div class="meta">
+            <span>Categoría: {{ ejercicioEnviado.categoria_ejercicio }}</span>
+            <span>Dificultad: {{ ejercicioEnviado.dificultad_ejercicio }}</span>
+        </div>
+
+        <p class="enunciado">
+            <strong>Enunciado:</strong> {{ ejercicioEnviado.enunciado_ejercicio }}
+        </p>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="main-content">
+
+        <!-- CÓDIGO -->
+        <div class="code-section">
+
+            <div class="code-header">
+                <span>Código C++</span>
+            </div>
+
+            <pre class="code">
+<code>
+{{ ejercicioEnviado.codigo_ejercicio }}      
+</code>
+            </pre>
+
+        </div>
+
+        <!-- RESPUESTA -->
+        <div class="answer-section">
+
+            {% if ejercicioEnviado.total_intentos < 3 %}
+            
+                <h3>Tu respuesta</h3>
+
+                <div class="fake-input">
+                    <input id="valor_html" class="caja" type="text" placeholder="Escribe tu respuesta aquí..." >
+                    <input id="id_html" value="{{ ejercicioEnviado.id }}" type="hidden">
+                </div>
+
+                <button class="btn" onclick="respuesta_funcion()">Responder</button>
+            
+            {% else %}
+                <div class="limit-message1">
+                    <div class="limit-message2">
+                        <h3>Has alcanzado el límite de intentos</h3>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="info-box" style="margin-top: 30px;">  
+         <!-- INTENTOS -->
+        <div>
+            <div class="attempt-header">
+                <span>Intentos {{ ejercicioEnviado.total_intentos }}/3</span>
+            </div>
+
+            {% for intento in ejercicioEnviado.intentos.all %}
+            <div class="attempt">
+
+                {% if intento.resultado == "0" %}
+                <div class="dot mal"></div>
+                {% elif intento.resultado == "1" %}
+                <div class="dot bien"></div>
+                {% endif %}
+
+                <div class="attempt-info">
+                     <span>Intento: {{ forloop.counter }}</span>
+                    <span>{{ intento.respuesta }}</span>
+                    <small>{{ intento.fecha }}</small>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+    
+
+</div>
+
+</body>
+<script src="{% static 'js/respuesta.js' %}"></script>
+</html>
+
+{% endblock %}
