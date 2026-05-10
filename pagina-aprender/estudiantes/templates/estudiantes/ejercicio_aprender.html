@@ -1,0 +1,88 @@
+{% extends 'estudiantes/temas.html' %}
+{% load static %}
+
+{% block contenido %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio</title>
+    <link rel="stylesheet" href="{% static 'css/ejercicioresolverestilo.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="enlaces">
+        <a href="{% url 'temas' %}">Temas /</a>
+        <a href="{% url 'ejercicios' temaPrincipal.id %}">{{temaPrincipal.name_tema}} /</a>
+        <a>{{ejercicioEnviado.titulo_ejercicio}}/</a>
+        <a>Aprender</a>
+    </div>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="centerHeader">   
+            <h2>Tema: {{temaPrincipal.name_tema}}</h2>
+            <p>{{temaPrincipal.descripcion_tema}}</p>
+        </div>  
+    </div>
+
+    <!-- HEADER / INFO -->
+    <div class="info-box">
+        <h3 class="title">{{ejercicioEnviado.titulo_ejercicio}}</h3>
+
+        <div class="meta">
+            <span>Categoria: {{ejercicioEnviado.categoria_ejercicio}}</span>
+            <span>Dificultad: {{ejercicioEnviado.dificultad_ejercicio}}</span>
+        </div>
+
+        <p class="enunciado">
+            <strong>Enunciado:</strong> {{ aprenderEnviado.enunciado_aprender }}
+        </p>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="main-content">
+
+        <!-- CÓDIGO -->
+        <div class="code-section">
+
+            <div class="code-header bien">
+                <span>Código C++</span>
+            </div>
+
+            <pre class="code">
+<code>
+{{ aprenderEnviado.ejercicioBien_aprender }}      
+</code>
+            </pre>
+
+        </div>
+
+         <!-- CÓDIGO -->
+        <div class="code-section">
+
+            <div class="code-header mal">
+                <span>Código C++</span>
+            </div>
+
+            <pre class="code">
+<code>
+{{ aprenderEnviado.ejercicioMal_aprender }}      
+</code>
+            </pre>
+
+        </div>
+
+    </div>
+    
+
+</div>
+
+</body>
+<script src="{% static 'js/respuesta.js' %}"></script>
+</html>
+
+{% endblock %}
